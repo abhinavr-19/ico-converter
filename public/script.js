@@ -14,7 +14,7 @@ const ICON_SIZES = [16, 32, 48, 64, 128, 256];
 let uploadedImage = null;
 let imageReady = false;
 
-/* ---------- Drag & Drop ---------- */
+/* Drag & Drop */
 ["dragenter", "dragover"].forEach(evt =>
     dropZone.addEventListener(evt, e => {
         e.preventDefault();
@@ -37,7 +37,7 @@ imageInput.addEventListener("change", e => {
     if (e.target.files[0]) handleFile(e.target.files[0]);
 });
 
-/* ---------- Handle File ---------- */
+/* Handle File */
 function handleFile(file) {
     imageReady = false;
 
@@ -60,14 +60,19 @@ function handleFile(file) {
     reader.readAsDataURL(file);
 }
 
-/* ---------- Convert to ICO ---------- */
+/* Convert */
 convertBtn.addEventListener("click", async () => {
     if (!imageReady) {
         alert("Please upload an image first.");
         return;
     }
 
-    previewContainer.innerHTML = "";
+    if (!window.pngToIco) {
+        alert("ICO engine not loaded. Please refresh.");
+        return;
+    }
+
+    previewContainer.innerHTML = [];
     const pngBuffers = [];
 
     for (const size of ICON_SIZES) {
@@ -81,7 +86,7 @@ convertBtn.addEventListener("click", async () => {
         const img = document.createElement("img");
         img.src = canvas.toDataURL("image/png");
         img.className = "w-8 h-8 opacity-90";
-        img.title = `${size}x${size}`;
+        img.title = `${size}×${size}`;
         previewContainer.appendChild(img);
 
         const blob = await new Promise(res => canvas.toBlob(res, "image/png"));
