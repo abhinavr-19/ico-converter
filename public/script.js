@@ -11,6 +11,9 @@ const icoSection = document.getElementById("icoSection");
 
 const ICON_SIZES = [16, 32, 48, 64, 128, 256];
 
+// IMPORTANT: bind once
+const pngToIco = window.pngToIco;
+
 let uploadedImage = null;
 let imageReady = false;
 
@@ -67,12 +70,12 @@ convertBtn.addEventListener("click", async () => {
         return;
     }
 
-    if (!window.pngToIco) {
-        alert("ICO engine not loaded. Please refresh.");
+    if (typeof pngToIco !== "function") {
+        alert("ICO engine failed to load. Refresh the page.");
         return;
     }
 
-    previewContainer.innerHTML = [];
+    previewContainer.innerHTML = "";
     const pngBuffers = [];
 
     for (const size of ICON_SIZES) {
@@ -94,7 +97,7 @@ convertBtn.addEventListener("click", async () => {
         pngBuffers.push(new Uint8Array(buffer));
     }
 
-    const icoBuffer = await window.pngToIco(pngBuffers);
+    const icoBuffer = await pngToIco(pngBuffers);
     const icoBlob = new Blob([icoBuffer], { type: "image/x-icon" });
 
     downloadLink.href = URL.createObjectURL(icoBlob);
