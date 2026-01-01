@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image to ICO Converter</title>
 
-    <!-- Tailwind CDN -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Tailwind Config -->
@@ -97,7 +97,7 @@ bg-[radial-gradient(ellipse_at_top,_#0f2f1f_0%,_#0a0a0a_45%,_#000000_100%)]">
         </section>
     </main>
 
-    <!-- Footer (FIXED: no absolute positioning) -->
+    <!-- Footer -->
     <footer class="relative mt-6 pb-6 w-full text-center text-xs text-white/50">
         Created by
         <a href="https://github.com/abhinavr-19" target="_blank" class="text-accent hover:underline">
@@ -109,8 +109,8 @@ bg-[radial-gradient(ellipse_at_top,_#0f2f1f_0%,_#0a0a0a_45%,_#000000_100%)]">
         </a>
     </footer>
 
-    <!-- IMPORTANT: png-to-ico MUST be before script.js -->
-    <script src="https://unpkg.com/png-to-ico/browser.js"></script>
+    <!-- ✅ VERCEL-SAFE ICO ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/png-to-ico@2.1.0/dist/png-to-ico.min.js"></script>
     <script src="script.js"></script>
 </body>
 
