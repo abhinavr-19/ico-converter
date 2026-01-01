@@ -25,9 +25,6 @@
         }
     </script>
 
-    <!-- PNG to ICO -->
-    <script src="https://unpkg.com/png-to-ico/browser.js"></script>
-
     <link rel="icon" href="favicon.ico" />
 </head>
 
@@ -43,14 +40,12 @@ bg-[radial-gradient(ellipse_at_top,_#0f2f1f_0%,_#0a0a0a_45%,_#000000_100%)]">
     </header>
 
     <!-- Main -->
-    <main class="flex items-center justify-center min-h-screen px-4 pt-20 pb-20">
-
+    <main class="flex items-center justify-center min-h-screen px-4 pt-20 pb-10">
         <section class="w-full max-w-xl bg-card/80 backdrop-blur-xl
-        border border-borderc rounded-xl
-        shadow-[0_0_60px_rgba(34,197,94,0.08)]
-        p-8 space-y-6">
+      border border-borderc rounded-xl
+      shadow-[0_0_60px_rgba(34,197,94,0.08)]
+      p-8 space-y-6">
 
-            <!-- Title -->
             <h1 class="text-2xl font-semibold text-center text-accent">
                 Image to ICO Converter
             </h1>
@@ -63,26 +58,26 @@ bg-[radial-gradient(ellipse_at_top,_#0f2f1f_0%,_#0a0a0a_45%,_#000000_100%)]">
             <div class="space-y-2">
                 <label class="text-sm text-white/80">Upload Image</label>
                 <label id="dropZone" class="block w-full h-28 rounded-md border border-borderc
-                    bg-black/30 cursor-pointer
-                    flex items-center justify-center
-                    text-white/50 hover:border-accent transition">
+          bg-black/30 cursor-pointer
+          flex items-center justify-center
+          text-white/50 hover:border-accent transition">
                     <input id="imageInput" type="file" accept="image/*" class="hidden" />
                     Drag & drop or click to upload
                 </label>
             </div>
 
-            <!-- Original Image Preview -->
+            <!-- Original Image -->
             <div id="originalSection" class="hidden space-y-2">
                 <h3 class="text-sm text-white/80">Original Image</h3>
                 <img id="originalPreview" class="rounded-md max-h-40 mx-auto" />
                 <p id="originalSize" class="text-xs text-white/50 text-center"></p>
             </div>
 
-            <!-- Convert Button -->
+            <!-- Convert -->
             <button id="convertBtn" class="w-full py-2.5 rounded-md
-                bg-gradient-to-r from-green-600 to-green-500
-                text-black font-semibold
-                hover:brightness-110 transition">
+        bg-gradient-to-r from-green-600 to-green-500
+        text-black font-semibold
+        hover:brightness-110 transition">
                 Convert to ICO
             </button>
 
@@ -94,16 +89,16 @@ bg-[radial-gradient(ellipse_at_top,_#0f2f1f_0%,_#0a0a0a_45%,_#000000_100%)]">
 
             <!-- Download -->
             <a id="downloadLink" class="hidden w-full text-center py-2.5 rounded-md
-                border border-accent text-accent
-                hover:bg-accent hover:text-black transition">
+        border border-accent text-accent
+        hover:bg-accent hover:text-black transition">
                 Download ICO
             </a>
 
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="absolute bottom-6 w-full text-center text-xs text-white/50">
+    <!-- Footer (FIXED: no absolute positioning) -->
+    <footer class="relative mt-6 pb-6 w-full text-center text-xs text-white/50">
         Created by
         <a href="https://github.com/abhinavr-19" target="_blank" class="text-accent hover:underline">
             Abhinav R
@@ -114,6 +109,8 @@ bg-[radial-gradient(ellipse_at_top,_#0f2f1f_0%,_#0a0a0a_45%,_#000000_100%)]">
         </a>
     </footer>
 
+    <!-- IMPORTANT: png-to-ico MUST be before script.js -->
+    <script src="https://unpkg.com/png-to-ico/browser.js"></script>
     <script src="script.js"></script>
 </body>
 
