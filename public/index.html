@@ -4,32 +4,25 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Image to ICO Converter</title>
-
-    <!-- SEO -->
-    <meta name="description" content="Futuristic Image to ICO converter. Convert images to favicon ICO instantly." />
-    <meta name="author" content="Abhinav R" />
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Tailwind config -->
+    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        neon: "#00ff9c",
-                        darkbg: "#050a08",
-                        darkcard: "#0b1411",
-                    },
-                    boxShadow: {
-                        neon: "0 0 25px rgba(0,255,156,0.35)",
-                    },
-                },
-            },
-        };
+                        accent: "#22c55e",   // GREEN (replaces blue)
+                        bgdark: "#020617",
+                        card: "#020817",
+                        borderc: "#1e293b"
+                    }
+                }
+            }
+        }
     </script>
 
     <!-- PNG to ICO -->
@@ -38,69 +31,74 @@
     <link rel="icon" href="favicon.ico" />
 </head>
 
-<body class="min-h-screen bg-darkbg text-white relative overflow-hidden">
+<body class="min-h-screen bg-gradient-to-br from-black via-bgdark to-black text-white relative">
 
     <!-- Header -->
-    <header class="fixed top-0 left-0 w-full px-6 py-4 z-50">
+    <header class="absolute top-6 left-8">
         <a href="https://github.com/AbhinavR" target="_blank"
-            class="text-xl font-bold tracking-wide hover:text-neon transition">
-            AR<span class="text-neon">.</span>
+            class="text-xl font-semibold tracking-wide hover:text-accent transition">
+            AR<span class="text-accent">.</span>
         </a>
     </header>
 
-    <!-- Background Glow -->
-    <div class="absolute inset-0 -z-10">
-        <div class="absolute top-1/4 left-1/2 w-96 h-96 bg-neon/20 blur-[120px] rounded-full"></div>
-        <div class="absolute bottom-1/4 right-1/3 w-72 h-72 bg-neon/10 blur-[100px] rounded-full"></div>
-    </div>
-
     <!-- Main -->
-    <main class="flex items-center justify-center min-h-screen px-4 pt-20 pb-16">
+    <main class="flex items-center justify-center min-h-screen px-4 pt-20 pb-20">
 
-        <section
-            class="w-full max-w-xl bg-darkcard/80 backdrop-blur-xl border border-neon/20 rounded-2xl shadow-neon p-6 md:p-8">
+        <section class="w-full max-w-xl bg-card/80 backdrop-blur-xl
+             border border-borderc rounded-xl
+             shadow-[0_0_60px_rgba(34,197,94,0.08)]
+             p-8 space-y-6">
 
-            <h1 class="text-2xl md:text-3xl font-bold text-center tracking-wide">
-                IMAGE → ICO
+            <!-- Title -->
+            <h1 class="text-2xl font-semibold text-center text-accent">
+                Image to ICO Converter
             </h1>
-            <p class="text-center text-sm text-neon/80 mt-1">
-                Futuristic favicon generator
+
+            <p class="text-center text-sm text-white/60">
+                Convert images into favicon-ready ICO files instantly.
             </p>
 
             <!-- Upload -->
-            <label
-                class="mt-6 flex flex-col items-center justify-center border border-dashed border-neon/40 rounded-xl p-6 cursor-pointer hover:bg-neon/5 transition group">
-                <input type="file" id="imageInput" accept="image/*" class="hidden" />
-                <span class="text-sm text-neon/90">UPLOAD IMAGE</span>
-            </label>
+            <div class="space-y-2">
+                <label class="text-sm text-white/80">Upload Image</label>
+                <label class="block w-full h-28 rounded-md border border-borderc
+                 bg-black/30 cursor-pointer
+                 flex items-center justify-center
+                 text-white/50 hover:border-accent transition">
+                    <input id="imageInput" type="file" accept="image/*" class="hidden" />
+                    Click to upload image
+                </label>
+            </div>
 
-            <!-- Convert -->
-            <button id="convertBtn"
-                class="w-full mt-5 bg-neon text-black hover:shadow-neon transition font-semibold py-2.5 rounded-xl tracking-wide">
-                CONVERT TO ICO
+            <!-- Convert Button -->
+            <button id="convertBtn" class="w-full py-2.5 rounded-md
+               bg-gradient-to-r from-green-600 to-green-500
+               text-black font-semibold
+               hover:brightness-110 transition">
+                Convert to ICO
             </button>
 
             <!-- Preview -->
-            <div id="preview" class="mt-6 grid grid-cols-4 sm:grid-cols-6 gap-3 justify-items-center"></div>
+            <div id="preview" class="grid grid-cols-6 gap-3 justify-items-center pt-2"></div>
 
             <!-- Download -->
-            <a id="downloadLink"
-                class="hidden mt-6 block text-center bg-black border border-neon text-neon hover:bg-neon hover:text-black transition font-semibold py-2.5 rounded-xl tracking-wide">
-                DOWNLOAD ICO
+            <a id="downloadLink" class="hidden w-full text-center py-2.5 rounded-md
+               border border-accent text-accent
+               hover:bg-accent hover:text-black transition">
+                Download ICO
             </a>
 
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="fixed bottom-0 left-0 w-full text-center py-4 text-xs text-white/60">
+    <footer class="absolute bottom-6 w-full text-center text-xs text-white/50">
         Created by
-        <a href="https://github.com/abhinavr-19" target="_blank" class="text-neon hover:underline transition">
+        <a href="https://github.com/abhinavr-19" target="_blank" class="text-accent hover:underline">
             Abhinav R
         </a>
         |
-        <a href="https://github.com/abhinavr-19/ico-converter" target="_blank"
-            class="text-neon hover:underline transition">
+        <a href="https://github.com/abhinavr-19/ico-converter" target="_blank" class="text-accent hover:underline">
             View on GitHub
         </a>
     </footer>
