@@ -4,33 +4,38 @@ const previewContainer = document.getElementById("preview");
 const downloadLink = document.getElementById("downloadLink");
 
 const ICON_SIZES = [16, 32, 48, 64, 128, 256];
-
 let uploadedImage = null;
 
 // Handle image upload
-imageInput.addEventListener("change", (e) => {
-    const file = e.target.files[0];
+imageInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = () => {
         uploadedImage = new Image();
         uploadedImage.src = reader.result;
+
+        // Reset previous output
+        previewContainer.innerHTML = "";
+        downloadLink.classList.add("hidden");
     };
     reader.readAsDataURL(file);
 });
 
-// Convert image to ICO
+// Convert image → ICO
 convertBtn.addEventListener("click", async () => {
     if (!uploadedImage) {
-        alert("Please upload an image first!");
+        alert("Please upload an image first.");
         return;
     }
 
     previewContainer.innerHTML = "";
+    downloadLink.classList.add("hidden");
+
     const pngBuffers = [];
 
-    for (let size of ICON_SIZES) {
+    for (const size of ICON_SIZES) {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
 
@@ -40,29 +45,32 @@ convertBtn.addEventListener("click", async () => {
         ctx.clearRect(0, 0, size, size);
         ctx.drawImage(uploadedImage, 0, 0, size, size);
 
-        // Preview
+        // Preview image
         const previewImg = document.createElement("img");
         previewImg.src = canvas.toDataURL("image/png");
-        previewImg.title = `${size}x${size}`;
+        previewImg.title = `${size}×${size}`;
+        previewImg.className = "w-8 h-8 opacity-90";
         previewContainer.appendChild(previewImg);
 
-        // Convert canvas → PNG buffer
-        const blob = await new Promise((res) =>
-            canvas.toBlob(res, "image/png")
+        // Canvas → PNG buffer
+        const blob = await new Promise((resolve) =>
+            canvas.toBlob(resolve, "image/png")
         );
-        const arrayBuffer = await blob.arrayBuffer();
-        pngBuffers.push(new Uint8Array(arrayBuffer));
+        const buffer = await blob.arrayBuffer();
+        pngBuffers.push(new Uint8Array(buffer));
     }
 
-    // Convert PNG buffers → ICO
-    const icoBuffer = await window.pngToIco(pngBuffers);
+    // Generate ICO
+    try {
+        const icoBuffer = await window.pngToIco(pngBuffers);
+        const icoBlob = new Blob([icoBuffer], { type: "image/x-icon" });
+        const icoURL = URL.createObjectURL(icoBlob);
 
-    // Create download link
-    const icoBlob = new Blob([icoBuffer], { type: "image/x-icon" });
-    const icoURL = URL.createObjectURL(icoBlob);
-
-    downloadLink.href = icoURL;
-    downloadLink.download = "favicon.ico";
-    downloadLink.style.display = "inline-block";
-    downloadLink.innerText = "Download ICO";
+        downloadLink.href = icoURL;
+        downloadLink.download = "favicon.ico";
+        downloadLink.classList.remove("hidden");
+    } catch (error) {
+        alert("Conversion failed. Please try a different image.");
+        console.error(error);
+    }
 });
