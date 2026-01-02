@@ -11,7 +11,6 @@ Built with a **dark + neon green futuristic UI**, no backend, and fully deployab
   <img src="screenshots/home.png" width="900" />
 </p>
 
-## 📸 Preview
 
 <p align="center">
   <img src="screenshots/preview.png" width="900" />
