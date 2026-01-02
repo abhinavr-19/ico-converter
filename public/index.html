@@ -17,8 +17,8 @@
                     colors: {
                         accent: "#22c55e",
                         bgdark: "#020617",
-                        card: "#0b0f14",
-                        borderc: "#134e2a"
+                        card: "#0a0a0a",
+                        borderc: "#00563B"
                     }
                 }
             }
@@ -28,24 +28,22 @@
     <link rel="icon" href="favicon.ico" />
 </head>
 
-<body class="min-h-screen text-white flex flex-col
-bg-[radial-gradient(ellipse_at_top,_#0f2f1f_0%,_#020617_50%,_#000000_100%)]">
+<body class="min-h-screen flex flex-col text-white
+bg-[radial-gradient(ellipse_at_top,_#0f2f1f_0%,_#0a0a0a_45%,_#000000_100%)]">
 
     <!-- Header -->
-    <header class="w-full border-b border-white/5 bg-black/30 backdrop-blur">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center">
-            <a href="https://www.linkedin.com/in/abhinav-r-a2b970286" target="_blank"
-                class="text-lg font-semibold tracking-wide hover:text-accent transition">
-                AR<span class="text-accent">.</span>
-            </a>
-        </div>
+    <header class="absolute top-6 left-8 z-10">
+        <a href="https://www.linkedin.com/in/abhinav-r-a2b970286" target="_blank"
+            class="text-xl font-semibold tracking-wide hover:text-accent transition">
+            AR<span class="text-accent">.</span>
+        </a>
     </header>
 
     <!-- Main -->
-    <main class="flex-1 flex items-center justify-center px-4 py-16">
+    <main class="flex-1 flex items-center justify-center px-4 pt-24 pb-12">
         <section class="w-full max-w-xl bg-card/80 backdrop-blur-xl
-            border border-borderc/60 rounded-2xl
-            shadow-[0_0_40px_rgba(34,197,94,0.08)]
+            border border-borderc rounded-xl
+            shadow-[0_0_60px_rgba(34,197,94,0.08)]
             p-8 space-y-6">
 
             <h1 class="text-2xl font-semibold text-center text-accent">
@@ -58,9 +56,9 @@ bg-[radial-gradient(ellipse_at_top,_#0f2f1f_0%,_#020617_50%,_#000000_100%)]">
 
             <!-- Upload -->
             <div class="space-y-2">
-                <label class="text-sm text-white/70">Upload Image</label>
-                <label id="dropZone" class="block w-full h-28 rounded-lg border border-borderc/70
-                    bg-black/40 cursor-pointer
+                <label class="text-sm text-white/80">Upload Image</label>
+                <label id="dropZone" class="block w-full h-28 rounded-md border border-borderc
+                    bg-black/30 cursor-pointer
                     flex items-center justify-center
                     text-white/50 hover:border-accent transition">
                     <input id="imageInput" type="file" accept="image/*" class="hidden" />
@@ -70,13 +68,13 @@ bg-[radial-gradient(ellipse_at_top,_#0f2f1f_0%,_#020617_50%,_#000000_100%)]">
 
             <!-- Original Image -->
             <div id="originalSection" class="hidden space-y-2">
-                <h3 class="text-sm text-white/70">Original Image</h3>
-                <img id="originalPreview" class="rounded-lg max-h-40 mx-auto" />
+                <h3 class="text-sm text-white/80">Original Image</h3>
+                <img id="originalPreview" class="rounded-md max-h-40 mx-auto" />
                 <p id="originalSize" class="text-xs text-white/50 text-center"></p>
             </div>
 
             <!-- Convert -->
-            <button id="convertBtn" class="w-full py-2.5 rounded-lg
+            <button id="convertBtn" class="w-full py-2.5 rounded-md
                 bg-gradient-to-r from-green-600 to-green-500
                 text-black font-semibold
                 hover:brightness-110 transition">
@@ -85,12 +83,12 @@ bg-[radial-gradient(ellipse_at_top,_#0f2f1f_0%,_#020617_50%,_#000000_100%)]">
 
             <!-- ICO Preview -->
             <div id="icoSection" class="hidden space-y-2">
-                <h3 class="text-sm text-white/70">ICO Preview</h3>
+                <h3 class="text-sm text-white/80">ICO Preview (256×256)</h3>
                 <div id="preview" class="flex justify-center pt-2"></div>
             </div>
 
             <!-- Download -->
-            <a id="downloadLink" class="hidden w-full text-center py-2.5 rounded-lg
+            <a id="downloadLink" class="hidden w-full text-center py-2.5 rounded-md
                 border border-accent text-accent
                 hover:bg-accent hover:text-black transition">
                 Download ICO
@@ -100,17 +98,15 @@ bg-[radial-gradient(ellipse_at_top,_#0f2f1f_0%,_#020617_50%,_#000000_100%)]">
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-white/5 bg-black/30 backdrop-blur">
-        <div class="max-w-6xl mx-auto px-6 py-4 text-center text-xs text-white/50">
-            Created by
-            <a href="https://github.com/abhinavr-19" target="_blank" class="text-accent hover:underline">
-                Abhinav R
-            </a>
-            &nbsp;|&nbsp;
-            <a href="https://github.com/abhinavr-19/ico-converter" target="_blank" class="text-accent hover:underline">
-                View on GitHub
-            </a>
-        </div>
+    <footer class="pb-6 w-full text-center text-xs text-white/50">
+        Created by
+        <a href="https://github.com/abhinavr-19" target="_blank" class="text-accent hover:underline">
+            Abhinav R
+        </a>
+        |
+        <a href="https://github.com/abhinavr-19/ico-converter" target="_blank" class="text-accent hover:underline">
+            View on GitHub
+        </a>
     </footer>
 
     <!-- Module Script -->
