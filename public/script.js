@@ -1,3 +1,7 @@
+// ✅ Import png-to-ico as ES Module (THIS FIXES EVERYTHING)
+import pngToIco from "https://cdn.skypack.dev/png-to-ico";
+
+// DOM Elements
 const imageInput = document.getElementById("imageInput");
 const dropZone = document.getElementById("dropZone");
 const convertBtn = document.getElementById("convertBtn");
@@ -9,15 +13,14 @@ const originalPreview = document.getElementById("originalPreview");
 const originalSize = document.getElementById("originalSize");
 const icoSection = document.getElementById("icoSection");
 
+// Icon sizes
 const ICON_SIZES = [16, 32, 48, 64, 128, 256];
 
-// IMPORTANT: bind once
-const pngToIco = window.pngToIco;
-
+// State
 let uploadedImage = null;
 let imageReady = false;
 
-/* Drag & Drop */
+/* ---------------- Drag & Drop ---------------- */
 ["dragenter", "dragover"].forEach(evt =>
     dropZone.addEventListener(evt, e => {
         e.preventDefault();
@@ -33,14 +36,15 @@ let imageReady = false;
 );
 
 dropZone.addEventListener("drop", e => {
-    if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
 });
 
 imageInput.addEventListener("change", e => {
     if (e.target.files[0]) handleFile(e.target.files[0]);
 });
 
-/* Handle File */
+/* ---------------- Handle File ---------------- */
 function handleFile(file) {
     imageReady = false;
 
@@ -63,15 +67,10 @@ function handleFile(file) {
     reader.readAsDataURL(file);
 }
 
-/* Convert */
+/* ---------------- Convert to ICO ---------------- */
 convertBtn.addEventListener("click", async () => {
     if (!imageReady) {
         alert("Please upload an image first.");
-        return;
-    }
-
-    if (typeof pngToIco !== "function") {
-        alert("ICO engine failed to load. Refresh the page.");
         return;
     }
 
@@ -86,17 +85,22 @@ convertBtn.addEventListener("click", async () => {
         canvas.height = size;
         ctx.drawImage(uploadedImage, 0, 0, size, size);
 
+        // Preview
         const img = document.createElement("img");
         img.src = canvas.toDataURL("image/png");
         img.className = "w-8 h-8 opacity-90";
         img.title = `${size}×${size}`;
         previewContainer.appendChild(img);
 
-        const blob = await new Promise(res => canvas.toBlob(res, "image/png"));
+        const blob = await new Promise(resolve =>
+            canvas.toBlob(resolve, "image/png")
+        );
+
         const buffer = await blob.arrayBuffer();
         pngBuffers.push(new Uint8Array(buffer));
     }
 
+    // Generate ICO
     const icoBuffer = await pngToIco(pngBuffers);
     const icoBlob = new Blob([icoBuffer], { type: "image/x-icon" });
 
