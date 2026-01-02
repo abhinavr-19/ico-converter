@@ -1,11 +1,11 @@
-// ✅ Import png-to-ico as ES Module (THIS FIXES EVERYTHING)
+// ✅ Reliable ES module import (works on Vercel)
 import pngToIco from "https://cdn.skypack.dev/png-to-ico";
 
 // DOM Elements
 const imageInput = document.getElementById("imageInput");
 const dropZone = document.getElementById("dropZone");
 const convertBtn = document.getElementById("convertBtn");
-const previewContainer = document.getElementById("preview");
+const preview = document.getElementById("preview");
 const downloadLink = document.getElementById("downloadLink");
 
 const originalSection = document.getElementById("originalSection");
@@ -13,14 +13,14 @@ const originalPreview = document.getElementById("originalPreview");
 const originalSize = document.getElementById("originalSize");
 const icoSection = document.getElementById("icoSection");
 
-// Icon sizes
-const ICON_SIZES = [16, 32, 48, 64, 128, 256];
+// Fixed size
+const ICON_SIZE = 256;
 
 // State
-let uploadedImage = null;
-let imageReady = false;
+let image = null;
+let ready = false;
 
-/* ---------------- Drag & Drop ---------------- */
+/* ---------- Drag & Drop ---------- */
 ["dragenter", "dragover"].forEach(evt =>
     dropZone.addEventListener(evt, e => {
         e.preventDefault();
@@ -36,23 +36,22 @@ let imageReady = false;
 );
 
 dropZone.addEventListener("drop", e => {
-    const file = e.dataTransfer.files[0];
-    if (file) handleFile(file);
+    if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
 });
 
 imageInput.addEventListener("change", e => {
     if (e.target.files[0]) handleFile(e.target.files[0]);
 });
 
-/* ---------------- Handle File ---------------- */
+/* ---------- Handle Upload ---------- */
 function handleFile(file) {
-    imageReady = false;
+    ready = false;
 
     const reader = new FileReader();
     reader.onload = () => {
-        uploadedImage = new Image();
-        uploadedImage.onload = () => {
-            imageReady = true;
+        image = new Image();
+        image.onload = () => {
+            ready = true;
 
             originalPreview.src = reader.result;
             originalSize.textContent = `Size: ${(file.size / 1024).toFixed(1)} KB`;
@@ -60,48 +59,43 @@ function handleFile(file) {
             originalSection.classList.remove("hidden");
             icoSection.classList.add("hidden");
             downloadLink.classList.add("hidden");
-            previewContainer.innerHTML = "";
+            preview.innerHTML = "";
         };
-        uploadedImage.src = reader.result;
+        image.src = reader.result;
     };
     reader.readAsDataURL(file);
 }
 
-/* ---------------- Convert to ICO ---------------- */
+/* ---------- Convert to ICO ---------- */
 convertBtn.addEventListener("click", async () => {
-    if (!imageReady) {
+    if (!ready) {
         alert("Please upload an image first.");
         return;
     }
 
-    previewContainer.innerHTML = "";
-    const pngBuffers = [];
+    // Resize to 256×256
+    const canvas = document.createElement("canvas");
+    canvas.width = ICON_SIZE;
+    canvas.height = ICON_SIZE;
 
-    for (const size of ICON_SIZES) {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, ICON_SIZE, ICON_SIZE);
+    ctx.drawImage(image, 0, 0, ICON_SIZE, ICON_SIZE);
 
-        canvas.width = size;
-        canvas.height = size;
-        ctx.drawImage(uploadedImage, 0, 0, size, size);
+    // Preview icon
+    const img = document.createElement("img");
+    img.src = canvas.toDataURL("image/png");
+    img.className = "w-16 h-16";
+    preview.appendChild(img);
 
-        // Preview
-        const img = document.createElement("img");
-        img.src = canvas.toDataURL("image/png");
-        img.className = "w-8 h-8 opacity-90";
-        img.title = `${size}×${size}`;
-        previewContainer.appendChild(img);
+    // Canvas → PNG buffer
+    const blob = await new Promise(res =>
+        canvas.toBlob(res, "image/png")
+    );
+    const buffer = await blob.arrayBuffer();
 
-        const blob = await new Promise(resolve =>
-            canvas.toBlob(resolve, "image/png")
-        );
-
-        const buffer = await blob.arrayBuffer();
-        pngBuffers.push(new Uint8Array(buffer));
-    }
-
-    // Generate ICO
-    const icoBuffer = await pngToIco(pngBuffers);
+    // PNG → ICO
+    const icoBuffer = await pngToIco([new Uint8Array(buffer)]);
     const icoBlob = new Blob([icoBuffer], { type: "image/x-icon" });
 
     downloadLink.href = URL.createObjectURL(icoBlob);
