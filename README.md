@@ -1,4 +1,4 @@
-# 🟢 Image to ICO 
+# 🟢 Image to ICO Converter
 
 A modern, lightweight **Image → ICO converter** that runs entirely in the browser.  
 Convert any image into a **favicon-ready 256×256 ICO file** with instant preview and download.
